@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily CA Portal • Multi-Day Edition</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {font-family: system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;background:linear-gradient(135deg,#0f172a,#020617);color:#e5e7eb;}
+    header {padding:1.2rem 1.5rem;background:rgba(15,23,42,0.9);position:sticky;top:0;backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,0.3);z-index:10;}
+    .header-flex {display:flex;justify-content:space-between;align-items:center;gap:1rem;max-width:960px;margin:0 auto;}
+    .brand {font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.9rem;color:#a5b4fc;}
+    .date-select {padding:.4rem .75rem;border-radius:999px;border:1px solid rgba(129,140,248,0.6);background:rgba(15,23,42,0.95);color:#e5e7eb;font-size:.8rem;cursor:pointer;}
+    .container {max-width:960px;margin:1.5rem auto 2.5rem;padding:0 1.25rem;}
+    .grid {display:grid;gap:1.5rem;grid-template-columns:minmax(0,2.1fr) minmax(0,1.4fr);}
+    @media (max-width:900px){.grid{grid-template-columns:minmax(0,1fr);}}
+    .card {border-radius:1.1rem;padding:1.25rem 1.4rem;background:radial-gradient(circle at top left,rgba(129,140,248,0.18),transparent 55%),rgba(15,23,42,0.98);border:1px solid rgba(148,163,184,0.25);box-shadow:0 18px 45px rgba(15,23,42,0.75);}
+    .pill {display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;padding:.25rem .7rem;border-radius:999px;background:rgba(34,197,94,0.1);color:#bbf7d0;border:1px solid rgba(34,197,94,0.35);}
+    .pill span.dot {width:.35rem;height:.35rem;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,0.18);}
+    h1 {font-size:1.5rem;margin:.75rem 0 .3rem;color:#e5e7eb;}
+    .subtitle {font-size:.9rem;color:#9ca3af;max-width:32rem;}
+    .badge {font-size:.7rem;padding:.2rem .6rem;border-radius:999px;border:1px solid rgba(251,191,36,0.6);color:#facc15;background:rgba(251,191,36,0.08);}
+    .news-header {display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:.35rem;}
+    .news-title {font-size:1rem;font-weight:600;color:#e5e7eb;}
+    .news-body {font-size:.85rem;color:#d1d5db;line-height:1.55;}
+    .nav-btns {display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-top:1rem;}
+    .button {border-radius:999px;padding:.5rem 1.05rem;font-size:.82rem;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.35rem;font-weight:500;letter-spacing:.02em;}
+    .button-primary {background:linear-gradient(135deg,#4f46e5,#22c55e);color:white;box-shadow:0 12px 30px rgba(79,70,229,0.45);}
+    .button-ghost {background:transparent;color:#a5b4fc;border:1px solid rgba(129,140,248,0.6);}
+    .button:disabled {opacity:.35;cursor:not-allowed;box-shadow:none;}
+    .index-dots {display:flex;gap:.25rem;align-items:center;}
+    .dot {width:.4rem;height:.4rem;border-radius:999px;background:rgba(148,163,184,0.45);}
+    .dot.active {background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,0.18);}
+    .quiz-header {display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;}
+    .quiz-title {font-size:1rem;font-weight:600;color:#e5e7eb;}
+    .quiz-counter {font-size:.8rem;color:#9ca3af;}
+    .question {margin:.9rem 0 .5rem;font-size:.9rem;color:#e5e7eb;}
+    .options {display:grid;gap:.45rem;}
+    .option {position:relative;border-radius:.8rem;padding:.5rem .75rem;font-size:.82rem;border:1px solid rgba(148,163,184,0.45);background:rgba(15,23,42,0.9);cursor:pointer;display:flex;gap:.55rem;align-items:flex-start;}
+    .option input {margin-top:.15rem;}
+    .option.correct {border-color:rgba(34,197,94,0.85);background:rgba(22,163,74,0.15);}
+    .option.wrong {border-color:rgba(248,113,113,0.85);background:rgba(127,29,29,0.2);}
+    .option.disabled {opacity:.6;cursor:default;}
+    .pill-small {font-size:.7rem;padding:.16rem .5rem;border-radius:999px;background:rgba(15,118,110,0.2);color:#99f6e4;border:1px solid rgba(45,212,191,0.55);}
+    .score-box {margin-top:1rem;padding:.7rem .9rem;border-radius:.9rem;border:1px dashed rgba(148,163,184,0.7);font-size:.82rem;color:#e5e7eb;}
+    .score-highlight {font-weight:600;color:#a5b4fc;}
+    .footer-note {margin-top:1.5rem;font-size:.75rem;color:#6b7280;text-align:center;}
+    .loading {text-align:center;padding:2rem;font-size:.9rem;color:#9ca3af;}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-flex">
+      <div class="brand">Daily CA • Multi-Day Portal</div>
+      <select class="date-select" id="date-select">
+        <option value="">Select Date...</option>
+      </select>
+    </div>
+  </header>
+  <main class="container">
+    <div id="loading" class="loading">📄 लोड कर रहे हैं...</div>
+    <div id="content" style="display:none;">
+      <div class="grid">
+        <!-- News Reader Panel -->
+        <section class="card" id="news-panel">
+          <span class="pill"><span class="dot"></span>Step 1 · Read today's news</span>
+          <h1>Daily Current Affairs Reader</h1>
+          <p class="subtitle">हर news card को एक‑एक करके पढ़ें। आख़िरी card के बाद quiz अपने‑आप unlock हो जाएगा।</p>
+
+          <div id="news-content" style="margin-top:1rem;">
+            <div class="news-header">
+              <div class="badge">News <span id="news-index">1</span> / <span id="news-total"></span></div>
+              <div style="font-size:.75rem;color:#9ca3af;">Source: Daily CA</div>
+            </div>
+            <div class="news-title" id="news-title"></div>
+            <div class="news-body" id="news-body"></div>
+          </div>
+
+          <div class="nav-btns">
+            <button class="button button-ghost" id="prev-news">← Previous</button>
+            <div class="index-dots" id="news-dots"></div>
+            <button class="button button-primary" id="next-news">Next →</button>
+          </div>
+        </section>
+
+        <!-- Quiz Panel -->
+        <section class="card" id="quiz-panel">
+          <span class="pill"><span class="dot" style="background:#f97316;box-shadow:0 0 0 4px rgba(249,115,22,0.18);"></span>Step 2 · MCQ Quiz</span>
+          <div class="quiz-header">
+            <div class="quiz-title">Locked · Finish news first</div>
+            <div class="quiz-counter" id="quiz-counter">0 / 0</div>
+          </div>
+          <p class="subtitle" id="quiz-subtitle">जब आप सभी news cards पढ़ लेंगे, यहाँ quiz अपने‑आप unlock हो जाएगा।</p>
+
+          <div id="quiz-content" style="margin-top:.8rem;">
+            <p style="font-size:.8rem;color:#9ca3af;">सभी news cards पूरा करने के बाद "Start Quiz" दबाएँ और MCQ solve करें।</p>
+          </div>
+
+          <button class="button button-primary" id="start-quiz" style="margin-top:1rem;width:100%;" disabled>Start Quiz · Locked</button>
+
+          <div class="score-box" id="score-box" style="display:none;"></div>
+
+          <p class="footer-note">इसी portal को रोज़ नया CA से update करके सभी को शेयर कर सकते हैं; लिंक same रहेगा।</p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let allSets = {};
+    let activeKey = null;
+    let currentNews = 0;
+    let viewedNews = new Set();
+
+    // DOM Elements
+    const dateSelect = document.getElementById('date-select');
+    const loadingEl = document.getElementById('loading');
+    const contentEl = document.getElementById('content');
+    const newsTitleEl = document.getElementById('news-title');
+    const newsBodyEl = document.getElementById('news-body');
+    const newsIndexEl = document.getElementById('news-index');
+    const newsTotalEl = document.getElementById('news-total');
+    const newsDotsEl = document.getElementById('news-dots');
+    const prevBtn = document.getElementById('prev-news');
+    const nextBtn = document.getElementById('next-news');
+    const startQuizBtn = document.getElementById('start-quiz');
+    const quizTitleEl = document.querySelector('.quiz-title');
+    const quizSubtitleEl = document.getElementById('quiz-subtitle');
+    const quizContentEl = document.getElementById('quiz-content');
+    const quizCounterEl = document.getElementById('quiz-counter');
+    const scoreBoxEl = document.getElementById('score-box');
+
+    let newsItems = [];
+    let quizQuestions = [];
+
+    // Fetch JSON
+    fetch('daily_ca_data.json')
+      .then(r => r.json())
+      .then(data => {
+        allSets = data;
+        
+        // Populate date select
+        const keys = Object.keys(allSets).sort().reverse();
+        keys.forEach(key => {
+          const opt = document.createElement('option');
+          opt.value = key;
+          opt.textContent = allSets[key].label;
+          dateSelect.appendChild(opt);
+        });
+
+        // Load latest by default
+        if (keys.length > 0) {
+          dateSelect.value = keys[0];
+          loadSet(keys[0]);
+        }
+
+        loadingEl.style.display = 'none';
+        contentEl.style.display = 'block';
+      })
+      .catch(err => {
+        loadingEl.textContent = '❌ JSON फाइल नहीं मिली। daily_ca_data.json को verify करें।';
+      });
+
+    dateSelect.addEventListener('change', (e) => {
+      if (e.target.value) {
+        loadSet(e.target.value);
+      }
+    });
+
+    function loadSet(key) {
+      activeKey = key;
+      const set = allSets[key];
+      newsItems = set.news || [];
+      quizQuestions = set.quiz || [];
+      currentNews = 0;
+      viewedNews.clear();
+      quizContentEl.innerHTML = '<p style="font-size:.8rem;color:#9ca3af;">सभी news cards पूरा करने के बाद "Start Quiz" दबाएँ।</p>';
+      startQuizBtn.disabled = true;
+      startQuizBtn.textContent = 'Start Quiz · Locked';
+      quizTitleEl.textContent = 'Locked · Finish news first';
+      quizSubtitleEl.textContent = 'जब आप सभी news cards पढ़ लेंगे, यहाँ quiz अपने‑आप unlock हो जाएगा।';
+      scoreBoxEl.style.display = 'none';
+      renderNews();
+    }
+
+    function renderNewsDots() {
+      newsDotsEl.innerHTML = '';
+      newsItems.forEach((_, idx) => {
+        const d = document.createElement('div');
+        d.className = 'dot' + (idx === currentNews ? ' active' : '');
+        newsDotsEl.appendChild(d);
+      });
+    }
+
+    function renderNews() {
+      const item = newsItems[currentNews];
+      newsTitleEl.textContent = item.title;
+      newsBodyEl.textContent = item.body;
+      newsIndexEl.textContent = currentNews + 1;
+      newsTotalEl.textContent = newsItems.length;
+
+      prevBtn.disabled = currentNews === 0;
+      nextBtn.disabled = currentNews === newsItems.length - 1;
+
+      renderNewsDots();
+      viewedNews.add(currentNews);
+
+      if (viewedNews.size === newsItems.length) {
+        unlockQuiz();
+      }
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentNews > 0) {
+        currentNews--;
+        renderNews();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentNews < newsItems.length - 1) {
+        currentNews++;
+        renderNews();
+      }
+    });
+
+    function unlockQuiz() {
+      startQuizBtn.disabled = false;
+      startQuizBtn.textContent = 'Start Quiz · ' + quizQuestions.length + ' Questions';
+      quizTitleEl.textContent = 'Ready · Today\'s MCQ Quiz';
+      quizSubtitleEl.textContent = 'आपने सभी news cards पढ़ लिए हैं। अब इन्हीं से बने questions solve कीजिए।';
+    }
+
+    let currentQ = 0;
+    let score = 0;
+    let quizStarted = false;
+
+    function renderQuestion() {
+      const q = quizQuestions[currentQ];
+      quizCounterEl.textContent = (currentQ + 1) + ' / ' + quizQuestions.length;
+      quizContentEl.innerHTML = '';
+
+      const qEl = document.createElement('div');
+      qEl.className = 'question';
+      qEl.textContent = q.q;
+
+      const fromEl = document.createElement('div');
+      fromEl.style.fontSize = '.7rem';
+      fromEl.style.color = '#9ca3af';
+      fromEl.style.marginTop = '.1rem';
+      const fromNews = newsItems.find(n => n.id === q.fromNewsId);
+      fromEl.innerHTML = '<span class="pill-small">From News ' + (q.fromNewsId) + ': ' + (fromNews?.title?.slice(0,25) || '') + '...</span>';
+
+      const optsEl = document.createElement('div');
+      optsEl.className = 'options';
+
+      q.options.forEach((opt, idx) => {
+        const label = document.createElement('label');
+        label.className = 'option';
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'q';
+        input.value = idx;
+        const span = document.createElement('span');
+        span.textContent = opt;
+        label.appendChild(input);
+        label.appendChild(span);
+        optsEl.appendChild(label);
+      });
+
+      quizContentEl.appendChild(qEl);
+      quizContentEl.appendChild(fromEl);
+      quizContentEl.appendChild(optsEl);
+
+      const submitBtn = document.createElement('button');
+      submitBtn.className = 'button button-primary';
+      submitBtn.style.marginTop = '.8rem';
+      submitBtn.textContent = currentQ === quizQuestions.length - 1 ? 'Finish Quiz' : 'Submit & Next';
+      quizContentEl.appendChild(submitBtn);
+
+      submitBtn.addEventListener('click', () => {
+        const selected = quizContentEl.querySelector('input[name="q"]:checked');
+        if (!selected) return;
+
+        const val = parseInt(selected.value, 10);
+        const optionLabels = quizContentEl.querySelectorAll('.option');
+        optionLabels.forEach((lbl, idx) => {
+          lbl.classList.add('disabled');
+          if (idx === q.answer) lbl.classList.add('correct');
+          if (idx === val && val !== q.answer) lbl.classList.add('wrong');
+        });
+        if (val === q.answer) score++;
+
+        setTimeout(() => {
+          if (currentQ < quizQuestions.length - 1) {
+            currentQ++;
+            renderQuestion();
+          } else {
+            showScore();
+          }
+        }, 600);
+      });
+    }
+
+    function showScore() {
+      const total = quizQuestions.length;
+      const percentage = Math.round((score / total) * 100);
+      scoreBoxEl.style.display = 'block';
+      scoreBoxEl.innerHTML =
+        'Your score: <span class="score-highlight">' + score + ' / ' + total +
+        ' (' + percentage + '%)</span><br><small style="color:#9ca3af;">अगले दिन के लिए portal update होने का इंतज़ार करें।</small>';
+    }
+
+    startQuizBtn.addEventListener('click', () => {
+      if (!quizStarted) {
+        quizStarted = true;
+        currentQ = 0;
+        score = 0;
+        renderQuestion();
+      }
+    });
+  </script>
+</body>
+</html>
