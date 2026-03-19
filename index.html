@@ -11,8 +11,6 @@
     .brand {font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.9rem;color:#a5b4fc;}
     .date-select {padding:.4rem .75rem;border-radius:999px;border:1px solid rgba(129,140,248,0.6);background:rgba(15,23,42,0.95);color:#e5e7eb;font-size:.8rem;cursor:pointer;}
     .container {max-width:960px;margin:1.5rem auto 2.5rem;padding:0 1.25rem;}
-    .grid {display:grid;gap:1.5rem;grid-template-columns:minmax(0,2.1fr) minmax(0,1.4fr);}
-    @media (max-width:900px){.grid{grid-template-columns:minmax(0,1fr);}}
     .card {border-radius:1.1rem;padding:1.25rem 1.4rem;background:radial-gradient(circle at top left,rgba(129,140,248,0.18),transparent 55%),rgba(15,23,42,0.98);border:1px solid rgba(148,163,184,0.25);box-shadow:0 18px 45px rgba(15,23,42,0.75);}
     .pill {display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;padding:.25rem .7rem;border-radius:999px;background:rgba(34,197,94,0.1);color:#bbf7d0;border:1px solid rgba(34,197,94,0.35);}
     .pill span.dot {width:.35rem;height:.35rem;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,0.18);}
@@ -20,8 +18,8 @@
     .subtitle {font-size:.9rem;color:#9ca3af;max-width:32rem;}
     .badge {font-size:.7rem;padding:.2rem .6rem;border-radius:999px;border:1px solid rgba(251,191,36,0.6);color:#facc15;background:rgba(251,191,36,0.08);}
     .news-header {display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:.35rem;}
-    .news-title {font-size:1rem;font-weight:600;color:#e5e7eb;}
-    .news-body {font-size:.85rem;color:#d1d5db;line-height:1.55;}
+    .news-title {font-size:1.25rem;font-weight:600;color:#e5e7eb;}
+    .news-body {font-size:1.1rem;color:#d1d5db;line-height:1.75;}
     .nav-btns {display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-top:1rem;}
     .button {border-radius:999px;padding:.5rem 1.05rem;font-size:.82rem;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.35rem;font-weight:500;letter-spacing:.02em;}
     .button-primary {background:linear-gradient(135deg,#4f46e5,#22c55e);color:white;box-shadow:0 12px 30px rgba(79,70,229,0.45);}
@@ -33,9 +31,9 @@
     .quiz-header {display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;}
     .quiz-title {font-size:1rem;font-weight:600;color:#e5e7eb;}
     .quiz-counter {font-size:.8rem;color:#9ca3af;}
-    .question {margin:.9rem 0 .5rem;font-size:.9rem;color:#e5e7eb;}
+    .question {margin:.9rem 0 .5rem;font-size:.95rem;color:#e5e7eb;}
     .options {display:grid;gap:.45rem;}
-    .option {position:relative;border-radius:.8rem;padding:.5rem .75rem;font-size:.82rem;border:1px solid rgba(148,163,184,0.45);background:rgba(15,23,42,0.9);cursor:pointer;display:flex;gap:.55rem;align-items:flex-start;}
+    .option {position:relative;border-radius:.8rem;padding:.5rem .75rem;font-size:.85rem;border:1px solid rgba(148,163,184,0.45);background:rgba(15,23,42,0.9);cursor:pointer;display:flex;gap:.55rem;align-items:flex-start;}
     .option input {margin-top:.15rem;}
     .option.correct {border-color:rgba(34,197,94,0.85);background:rgba(22,163,74,0.15);}
     .option.wrong {border-color:rgba(248,113,113,0.85);background:rgba(127,29,29,0.2);}
@@ -56,52 +54,57 @@
       </select>
     </div>
   </header>
+
   <main class="container">
     <div id="loading" class="loading">📄 लोड कर रहे हैं...</div>
-    <div id="content" style="display:none;">
-      <div class="grid">
-        <!-- News Reader Panel -->
-        <section class="card" id="news-panel">
-          <span class="pill"><span class="dot"></span>Step 1 · Read today's news</span>
-          <h1>Daily Current Affairs Reader</h1>
-          <p class="subtitle">हर news card को एक‑एक करके पढ़ें। आख़िरी card के बाद quiz अपने‑आप unlock हो जाएगा।</p>
 
-          <div id="news-content" style="margin-top:1rem;">
-            <div class="news-header">
-              <div class="badge">News <span id="news-index">1</span> / <span id="news-total"></span></div>
-              <div style="font-size:.75rem;color:#9ca3af;">Source: Daily CA</div>
-            </div>
-            <div class="news-title" id="news-title"></div>
-            <div class="news-body" id="news-body"></div>
+    <!-- NEWS SCREEN ONLY -->
+    <div id="news-screen" style="display:none;">
+      <section class="card" id="news-panel">
+        <span class="pill"><span class="dot"></span>Step 1 · Read today's news</span>
+        <h1>Daily Current Affairs Reader</h1>
+        <p class="subtitle">हर news card को आराम से पढ़ें। सभी cards complete होने के बाद नीचे से quiz start होगा।</p>
+
+        <div id="news-content" style="margin-top:1rem;">
+          <div class="news-header">
+            <div class="badge">News <span id="news-index">1</span> / <span id="news-total"></span></div>
+            <div style="font-size:.75rem;color:#9ca3af;">Source: Daily CA</div>
           </div>
+          <div class="news-title" id="news-title"></div>
+          <div class="news-body" id="news-body"></div>
+        </div>
 
-          <div class="nav-btns">
-            <button class="button button-ghost" id="prev-news">← Previous</button>
-            <div class="index-dots" id="news-dots"></div>
-            <button class="button button-primary" id="next-news">Next →</button>
-          </div>
-        </section>
+        <div class="nav-btns">
+          <button class="button button-ghost" id="prev-news">← Previous</button>
+          <div class="index-dots" id="news-dots"></div>
+          <button class="button button-primary" id="next-news">Next →</button>
+        </div>
 
-        <!-- Quiz Panel -->
-        <section class="card" id="quiz-panel">
-          <span class="pill"><span class="dot" style="background:#f97316;box-shadow:0 0 0 4px rgba(249,115,22,0.18);"></span>Step 2 · MCQ Quiz</span>
-          <div class="quiz-header">
-            <div class="quiz-title">Locked · Finish news first</div>
-            <div class="quiz-counter" id="quiz-counter">0 / 0</div>
-          </div>
-          <p class="subtitle" id="quiz-subtitle">जब आप सभी news cards पढ़ लेंगे, यहाँ quiz अपने‑आप unlock हो जाएगा।</p>
+        <button class="button button-primary" id="go-to-quiz"
+                style="margin-top:1.2rem;width:100%;display:none;">
+          Start Quiz · 20 Questions
+        </button>
+      </section>
+    </div>
 
-          <div id="quiz-content" style="margin-top:.8rem;">
-            <p style="font-size:.8rem;color:#9ca3af;">सभी news cards पूरा करने के बाद "Start Quiz" दबाएँ और MCQ solve करें।</p>
-          </div>
+    <!-- QUIZ SCREEN ONLY -->
+    <div id="quiz-screen" style="display:none;margin-top:1.5rem;">
+      <section class="card" id="quiz-panel">
+        <span class="pill"><span class="dot" style="background:#f97316;box-shadow:0 0 0 4px rgba(249,115,22,0.18);"></span>Step 2 · MCQ Quiz</span>
+        <div class="quiz-header">
+          <div class="quiz-title">Today's MCQ Quiz</div>
+          <div class="quiz-counter" id="quiz-counter">0 / 0</div>
+        </div>
+        <p class="subtitle" id="quiz-subtitle">आपने अभी जो news पढ़ी हैं, उन्हीं पर आधारित 20 MCQ यहाँ होंगे।</p>
 
-          <button class="button button-primary" id="start-quiz" style="margin-top:1rem;width:100%;" disabled>Start Quiz · Locked</button>
+        <div id="quiz-content" style="margin-top:.8rem;">
+          <p style="font-size:.8rem;color:#9ca3af;">पहले सभी news cards पूरा कीजिए, फिर quiz शुरू होगा।</p>
+        </div>
 
-          <div class="score-box" id="score-box" style="display:none;"></div>
+        <div class="score-box" id="score-box" style="display:none;"></div>
 
-          <p class="footer-note">इसी portal को रोज़ नया CA से update करके सभी को शेयर कर सकते हैं; लिंक same रहेगा।</p>
-        </section>
-      </div>
+        <p class="footer-note">इसी portal को रोज़ नया CA data के साथ update करके सबको share कर सकते हैं।</p>
+      </section>
     </div>
   </main>
 
@@ -111,10 +114,11 @@
     let currentNews = 0;
     let viewedNews = new Set();
 
-    // DOM Elements
     const dateSelect = document.getElementById('date-select');
     const loadingEl = document.getElementById('loading');
-    const contentEl = document.getElementById('content');
+    const newsScreen = document.getElementById('news-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+
     const newsTitleEl = document.getElementById('news-title');
     const newsBodyEl = document.getElementById('news-body');
     const newsIndexEl = document.getElementById('news-index');
@@ -122,7 +126,8 @@
     const newsDotsEl = document.getElementById('news-dots');
     const prevBtn = document.getElementById('prev-news');
     const nextBtn = document.getElementById('next-news');
-    const startQuizBtn = document.getElementById('start-quiz');
+    const goToQuizBtn = document.getElementById('go-to-quiz');
+
     const quizTitleEl = document.querySelector('.quiz-title');
     const quizSubtitleEl = document.getElementById('quiz-subtitle');
     const quizContentEl = document.getElementById('quiz-content');
@@ -131,14 +136,14 @@
 
     let newsItems = [];
     let quizQuestions = [];
+    let currentQ = 0;
+    let score = 0;
+    let quizStarted = false;
 
-    // Fetch JSON
     fetch('daily_ca_data.json')
       .then(r => r.json())
       .then(data => {
         allSets = data;
-        
-        // Populate date select
         const keys = Object.keys(allSets).sort().reverse();
         keys.forEach(key => {
           const opt = document.createElement('option');
@@ -147,23 +152,20 @@
           dateSelect.appendChild(opt);
         });
 
-        // Load latest by default
         if (keys.length > 0) {
           dateSelect.value = keys[0];
           loadSet(keys[0]);
         }
 
         loadingEl.style.display = 'none';
-        contentEl.style.display = 'block';
+        newsScreen.style.display = 'block';
       })
       .catch(err => {
         loadingEl.textContent = '❌ JSON फाइल नहीं मिली। daily_ca_data.json को verify करें।';
       });
 
     dateSelect.addEventListener('change', (e) => {
-      if (e.target.value) {
-        loadSet(e.target.value);
-      }
+      if (e.target.value) loadSet(e.target.value);
     });
 
     function loadSet(key) {
@@ -173,12 +175,13 @@
       quizQuestions = set.quiz || [];
       currentNews = 0;
       viewedNews.clear();
-      quizContentEl.innerHTML = '<p style="font-size:.8rem;color:#9ca3af;">सभी news cards पूरा करने के बाद "Start Quiz" दबाएँ।</p>';
-      startQuizBtn.disabled = true;
-      startQuizBtn.textContent = 'Start Quiz · Locked';
-      quizTitleEl.textContent = 'Locked · Finish news first';
-      quizSubtitleEl.textContent = 'जब आप सभी news cards पढ़ लेंगे, यहाँ quiz अपने‑आप unlock हो जाएगा।';
+      quizStarted = false;
+      score = 0;
       scoreBoxEl.style.display = 'none';
+      quizContentEl.innerHTML = '<p style="font-size:.8rem;color:#9ca3af;">पहले सभी news cards पढ़िए, फिर quiz शुरू होगा।</p>';
+      goToQuizBtn.style.display = 'none';
+      quizScreen.style.display = 'none';
+      newsScreen.style.display = 'block';
       renderNews();
     }
 
@@ -193,6 +196,7 @@
 
     function renderNews() {
       const item = newsItems[currentNews];
+      if (!item) return;
       newsTitleEl.textContent = item.title;
       newsBodyEl.textContent = item.body;
       newsIndexEl.textContent = currentNews + 1;
@@ -204,9 +208,7 @@
       renderNewsDots();
       viewedNews.add(currentNews);
 
-      if (viewedNews.size === newsItems.length) {
-        unlockQuiz();
-      }
+      if (viewedNews.size === newsItems.length) unlockQuiz();
     }
 
     prevBtn.addEventListener('click', () => {
@@ -224,18 +226,22 @@
     });
 
     function unlockQuiz() {
-      startQuizBtn.disabled = false;
-      startQuizBtn.textContent = 'Start Quiz · ' + quizQuestions.length + ' Questions';
-      quizTitleEl.textContent = 'Ready · Today\'s MCQ Quiz';
-      quizSubtitleEl.textContent = 'आपने सभी news cards पढ़ लिए हैं। अब इन्हीं से बने questions solve कीजिए।';
+      goToQuizBtn.style.display = 'inline-flex';
+      goToQuizBtn.textContent = 'Start Quiz · ' + quizQuestions.length + ' Questions';
     }
 
-    let currentQ = 0;
-    let score = 0;
-    let quizStarted = false;
+    goToQuizBtn.addEventListener('click', () => {
+      newsScreen.style.display = 'none';
+      quizScreen.style.display = 'block';
+      currentQ = 0;
+      score = 0;
+      quizStarted = true;
+      renderQuestion();
+    });
 
     function renderQuestion() {
       const q = quizQuestions[currentQ];
+      if (!q) return;
       quizCounterEl.textContent = (currentQ + 1) + ' / ' + quizQuestions.length;
       quizContentEl.innerHTML = '';
 
@@ -307,17 +313,8 @@
       scoreBoxEl.style.display = 'block';
       scoreBoxEl.innerHTML =
         'Your score: <span class="score-highlight">' + score + ' / ' + total +
-        ' (' + percentage + '%)</span><br><small style="color:#9ca3af;">अगले दिन के लिए portal update होने का इंतज़ार करें।</small>';
+        ' (' + percentage + '%)</span><br><small style="color:#9ca3af;">कल के नए set के लिए यही लिंक फिर से खोलें।</small>';
     }
-
-    startQuizBtn.addEventListener('click', () => {
-      if (!quizStarted) {
-        quizStarted = true;
-        currentQ = 0;
-        score = 0;
-        renderQuestion();
-      }
-    });
   </script>
 </body>
 </html>
