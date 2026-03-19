@@ -2,38 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Daily CA Portal • Multi-Day Edition</title>
+  <title>Daily CA Portal • Study Mode</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {font-family: system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;background:linear-gradient(135deg,#0f172a,#020617);color:#e5e7eb;}
-    header {padding:1.2rem 1.5rem;background:rgba(15,23,42,0.9);position:sticky;top:0;backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,0.3);z-index:10;}
+    body {font-family: system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;background:linear-gradient(135deg,#020617,#0f172a);color:#e5e7eb;}
+    header {padding:1.2rem 1.5rem;background:rgba(15,23,42,0.96);position:sticky;top:0;backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,0.3);z-index:10;}
     .header-flex {display:flex;justify-content:space-between;align-items:center;gap:1rem;max-width:960px;margin:0 auto;}
-    .brand {font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.9rem;color:#a5b4fc;}
+    .brand {font-weight:700;letter-spacing:.04em;text-transform:uppercase;font-size:.9rem;color:#a5b4fc;display:flex;align-items:center;gap:.4rem;}
+    .brand-icon {width:1.3rem;height:1.3rem;border-radius:8px;background:radial-gradient(circle at 30% 20%,#38bdf8,#4f46e5);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#e5e7eb;}
     .date-select {padding:.4rem .75rem;border-radius:999px;border:1px solid rgba(129,140,248,0.6);background:rgba(15,23,42,0.95);color:#e5e7eb;font-size:.8rem;cursor:pointer;}
     .container {max-width:960px;margin:1.5rem auto 2.5rem;padding:0 1.25rem;}
-    .card {border-radius:1.1rem;padding:1.25rem 1.4rem;background:radial-gradient(circle at top left,rgba(129,140,248,0.18),transparent 55%),rgba(15,23,42,0.98);border:1px solid rgba(148,163,184,0.25);box-shadow:0 18px 45px rgba(15,23,42,0.75);}
-    .pill {display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;padding:.25rem .7rem;border-radius:999px;background:rgba(34,197,94,0.1);color:#bbf7d0;border:1px solid rgba(34,197,94,0.35);}
+
+    .card {border-radius:1.1rem;padding:1.25rem 1.4rem;background:radial-gradient(circle at top left,rgba(129,140,248,0.15),transparent 55%),rgba(15,23,42,0.98);border:1px solid rgba(148,163,184,0.25);box-shadow:0 18px 45px rgba(15,23,42,0.75);}
+    .pill {display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;padding:.25rem .7rem;border-radius:999px;background:rgba(34,197,94,0.08);color:#bbf7d0;border:1px solid rgba(34,197,94,0.35);}
     .pill span.dot {width:.35rem;height:.35rem;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,0.18);}
-    h1 {font-size:1.5rem;margin:.75rem 0 .3rem;color:#e5e7eb;}
-    .subtitle {font-size:.9rem;color:#9ca3af;max-width:32rem;}
+
     .title-row {display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin:.75rem 0 .3rem;}
-    .title-row h1 {margin:0;}
+    .title-row h1 {margin:0;font-size:1.5rem;color:#e5e7eb;display:flex;align-items:center;gap:.4rem;}
+    .title-row h1 span.icon {width:1.6rem;height:1.6rem;border-radius:999px;background:rgba(56,189,248,0.1);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#7dd3fc;}
     .title-row .subtitle {margin:0;font-size:.95rem;color:#9ca3af;}
+
     .badge {font-size:.7rem;padding:.2rem .6rem;border-radius:999px;border:1px solid rgba(251,191,36,0.6);color:#facc15;background:rgba(251,191,36,0.08);}
     .news-header {display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:.35rem;}
-    .news-title {font-size:1.8rem;font-weight:600;color:#e5e7eb;}   /* ~20% bigger from 1.5 */
-    .news-body {font-size:1.56rem;color:#d1d5db;line-height:1.8;}   /* ~20% bigger from 1.3 */
+    .news-title {font-size:1.6rem;font-weight:600;color:#e5e7eb;}
+    .news-body {font-size:1.4rem;color:#d1d5db;line-height:1.8;}
+
     .nav-btns {display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-top:1rem;}
     .button {border-radius:999px;padding:.5rem 1.05rem;font-size:.82rem;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.35rem;font-weight:500;letter-spacing:.02em;}
     .button-primary {background:linear-gradient(135deg,#4f46e5,#22c55e);color:white;box-shadow:0 12px 30px rgba(79,70,229,0.45);}
     .button-ghost {background:transparent;color:#a5b4fc;border:1px solid rgba(129,140,248,0.6);}
     .button:disabled {opacity:.35;cursor:not-allowed;box-shadow:none;}
+
     .index-dots {display:flex;gap:.25rem;align-items:center;}
     .dot {width:.4rem;height:.4rem;border-radius:999px;background:rgba(148,163,184,0.45);}
     .dot.active {background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,0.18);}
+
     .quiz-header {display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;}
-    .quiz-title {font-size:1rem;font-weight:600;color:#e5e7eb;}
+    .quiz-title {font-size:1rem;font-weight:600;color:#e5e7eb;display:flex;align-items:center;gap:.35rem;}
+    .quiz-title span.icon {width:1.4rem;height:1.4rem;border-radius:999px;background:rgba(244,114,182,0.12);display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#fb7185;}
     .quiz-counter {font-size:.8rem;color:#9ca3af;}
+
+    .progress-bar-wrap {width:100%;height:.45rem;border-radius:999px;background:rgba(30,64,175,0.6);overflow:hidden;margin:.4rem 0 .8rem;}
+    .progress-bar-fill {height:100%;width:0%;background:linear-gradient(90deg,#22c55e,#4ade80);transition:width .25s ease-out;}
+
     .question {margin:.9rem 0 .5rem;font-size:.95rem;color:#e5e7eb;}
     .options {display:grid;gap:.45rem;}
     .option {position:relative;border-radius:.8rem;padding:.5rem .75rem;font-size:.85rem;border:1px solid rgba(148,163,184,0.45);background:rgba(15,23,42,0.9);cursor:pointer;display:flex;gap:.55rem;align-items:flex-start;}
@@ -41,17 +52,33 @@
     .option.correct {border-color:rgba(34,197,94,0.85);background:rgba(22,163,74,0.15);}
     .option.wrong {border-color:rgba(248,113,113,0.85);background:rgba(127,29,29,0.2);}
     .option.disabled {opacity:.6;cursor:default;}
+
     .pill-small {font-size:.7rem;padding:.16rem .5rem;border-radius:999px;background:rgba(15,118,110,0.2);color:#99f6e4;border:1px solid rgba(45,212,191,0.55);}
     .score-box {margin-top:1rem;padding:.7rem .9rem;border-radius:.9rem;border:1px dashed rgba(148,163,184,0.7);font-size:.82rem;color:#e5e7eb;}
     .score-highlight {font-weight:600;color:#a5b4fc;}
     .footer-note {margin-top:1.5rem;font-size:.75rem;color:#6b7280;text-align:center;}
     .loading {text-align:center;padding:2rem;font-size:.9rem;color:#9ca3af;}
+
+    .meta-row {display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.4rem;font-size:.8rem;color:#9ca3af;}
+    .meta-pill {padding:.15rem .55rem;border-radius:999px;border:1px solid rgba(148,163,184,0.5);background:rgba(15,23,42,0.9);}
+
+    .streak-row {display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem;font-size:.78rem;color:#9ca3af;}
+    .streak-pill {padding:.2rem .6rem;border-radius:999px;border:1px solid rgba(34,197,94,0.4);background:rgba(22,163,74,0.08);color:#bbf7d0;}
+    .badge-pill {padding:.2rem .6rem;border-radius:999px;border:1px solid rgba(248,250,252,0.2);background:rgba(30,64,175,0.45);color:#e0f2fe;}
+
+    @media (max-width:768px){
+      .news-title {font-size:1.4rem;}
+      .news-body {font-size:1.2rem;}
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="header-flex">
-      <div class="brand">Daily CA • Multi-Day Portal</div>
+      <div class="brand">
+        <div class="brand-icon">CA</div>
+        Daily CA • Study Portal
+      </div>
       <select class="date-select" id="date-select">
         <option value="">Select Date...</option>
       </select>
@@ -61,13 +88,16 @@
   <main class="container">
     <div id="loading" class="loading">📄 लोड कर रहे हैं...</div>
 
-    <!-- NEWS SCREEN ONLY -->
+    <!-- NEWS SCREEN -->
     <div id="news-screen" style="display:none;">
       <section class="card" id="news-panel">
         <span class="pill"><span class="dot"></span>Step 1 · Read today's news</span>
 
         <div class="title-row">
-          <h1>Daily Current Affairs Reader</h1>
+          <h1>
+            <span class="icon">📚</span>
+            Daily Current Affairs Reader
+          </h1>
           <p class="subtitle">हर news card को आराम से पढ़ें। सभी cards complete होने के बाद नीचे से quiz start होगा।</p>
         </div>
 
@@ -78,6 +108,11 @@
           </div>
           <div class="news-title" id="news-title"></div>
           <div class="news-body" id="news-body"></div>
+
+          <div class="meta-row">
+            <div class="meta-pill" id="news-id-pill">ID: –</div>
+            <div class="meta-pill">Focus Mode · Reading</div>
+          </div>
         </div>
 
         <div class="nav-btns">
@@ -93,14 +128,23 @@
       </section>
     </div>
 
-    <!-- QUIZ SCREEN ONLY -->
+    <!-- QUIZ SCREEN -->
     <div id="quiz-screen" style="display:none;margin-top:1.5rem;">
       <section class="card" id="quiz-panel">
         <span class="pill"><span class="dot" style="background:#f97316;box-shadow:0 0 0 4px rgba(249,115,22,0.18);"></span>Step 2 · MCQ Quiz</span>
+
         <div class="quiz-header">
-          <div class="quiz-title">Today's MCQ Quiz</div>
+          <div class="quiz-title">
+            <span class="icon">✏️</span>
+            Today's MCQ Quiz
+          </div>
           <div class="quiz-counter" id="quiz-counter">0 / 0</div>
         </div>
+
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="quiz-progress"></div>
+        </div>
+
         <p class="subtitle" id="quiz-subtitle">आपने अभी जो news पढ़ी हैं, उन्हीं पर आधारित 20 MCQ यहाँ होंगे।</p>
 
         <div id="quiz-content" style="margin-top:.8rem;">
@@ -109,7 +153,9 @@
 
         <div class="score-box" id="score-box" style="display:none;"></div>
 
-        <p class="footer-note">इसी portal को रोज़ नया CA data के साथ update करके सबको share कर सकते हैं।</p>
+        <p class="footer-note">
+          आपका progress इस browser में save रहेगा (streak, best score, XP)। रोज़ नया CA जोड़कर इसी link से practice कर सकते हैं।
+        </p>
       </section>
     </div>
   </main>
@@ -130,6 +176,7 @@
     const newsIndexEl = document.getElementById('news-index');
     const newsTotalEl = document.getElementById('news-total');
     const newsDotsEl = document.getElementById('news-dots');
+    const newsIdPill = document.getElementById('news-id-pill');
     const prevBtn = document.getElementById('prev-news');
     const nextBtn = document.getElementById('next-news');
     const goToQuizBtn = document.getElementById('go-to-quiz');
@@ -138,6 +185,7 @@
     const quizSubtitleEl = document.getElementById('quiz-subtitle');
     const quizContentEl = document.getElementById('quiz-content');
     const quizCounterEl = document.getElementById('quiz-counter');
+    const quizProgressEl = document.getElementById('quiz-progress');
     const scoreBoxEl = document.getElementById('score-box');
 
     let newsItems = [];
@@ -145,6 +193,74 @@
     let currentQ = 0;
     let score = 0;
     let quizStarted = false;
+
+    // simple XP + streak system keys
+    const STORAGE_KEY = 'daily_ca_portal_stats';
+
+    function loadStats() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : { days: {}, lastDate: null };
+      } catch {
+        return { days: {}, lastDate: null };
+      }
+    }
+
+    function saveStats(stats) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(stats));
+      } catch {}
+    }
+
+    function todayKey() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth()+1).padStart(2,'0');
+      const day = String(d.getDate()).padStart(2,'0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function updateProgressAfterQuiz(percentage, correct, total) {
+      const stats = loadStats();
+      const day = todayKey();
+      const dayStat = stats.days[day] || { attempts: 0, bestScore: 0, bestPercent: 0, xp: 0 };
+
+      dayStat.attempts += 1;
+      if (percentage > dayStat.bestPercent) {
+        dayStat.bestPercent = percentage;
+        dayStat.bestScore = correct;
+      }
+      const gainedXP = correct * 4;
+      dayStat.xp += gainedXP;
+      stats.days[day] = dayStat;
+
+      // simple streak
+      stats.lastDate = day;
+      saveStats(stats);
+
+      // compute streak (consecutive days with attempts)
+      const dayDates = Object.keys(stats.days).sort();
+      let streak = 0;
+      if (dayDates.length) {
+        const today = day;
+        let current = new Date(today);
+        while (true) {
+          const key = current.toISOString().slice(0,10);
+          if (stats.days[key] && stats.days[key].attempts > 0) {
+            streak += 1;
+            current.setDate(current.getDate() - 1);
+          } else break;
+        }
+      }
+
+      return {
+        xp: dayStat.xp,
+        attempts: dayStat.attempts,
+        bestScore: dayStat.bestScore,
+        bestPercent: dayStat.bestPercent,
+        streak
+      };
+    }
 
     fetch('daily_ca_data.json')
       .then(r => r.json())
@@ -207,6 +323,7 @@
       newsBodyEl.textContent = item.body;
       newsIndexEl.textContent = currentNews + 1;
       newsTotalEl.textContent = newsItems.length;
+      newsIdPill.textContent = 'News ID: ' + (item.id ?? (currentNews+1));
 
       prevBtn.disabled = currentNews === 0;
       nextBtn.disabled = currentNews === newsItems.length - 1;
@@ -245,10 +362,17 @@
       renderQuestion();
     });
 
+    function updateProgressBar() {
+      const total = quizQuestions.length || 1;
+      const percent = ((currentQ) / total) * 100;
+      quizProgressEl.style.width = percent + '%';
+    }
+
     function renderQuestion() {
       const q = quizQuestions[currentQ];
       if (!q) return;
       quizCounterEl.textContent = (currentQ + 1) + ' / ' + quizQuestions.length;
+      updateProgressBar();
       quizContentEl.innerHTML = '';
 
       const qEl = document.createElement('div');
@@ -314,14 +438,34 @@
     }
 
     function showScore() {
-      const total = quizQuestions.length;
+      const total = quizQuestions.length || 1;
       const percentage = Math.round((score / total) * 100);
+      quizProgressEl.style.width = '100%';
+
+      const stats = updateProgressAfterQuiz(percentage, score, total);
+
       scoreBoxEl.style.display = 'block';
+
+      let badges = [];
+      if (percentage === 100) badges.push('Perfect Score');
+      if (stats.attempts === 1) badges.push('First Attempt');
+      if (stats.streak >= 3) badges.push(stats.streak + '-day Streak');
+
+      const badgeHTML = badges.length
+        ? '<div class="streak-row">' + badges.map(b => '<span class="badge-pill">'+b+'</span>').join(' ') + '</div>'
+        : '';
+
+      const streakHTML = stats.streak
+        ? '<div class="streak-row"><span class="streak-pill">Streak: '+stats.streak+' day(s)</span><span class="streak-pill">Today XP: '+stats.xp+'</span></div>'
+        : '<div class="streak-row"><span class="streak-pill">Today XP: '+stats.xp+'</span></div>';
+
       scoreBoxEl.innerHTML =
         'Your score: <span class="score-highlight">' + score + ' / ' + total +
-        ' (' + percentage + '%)</span><br><small style="color:#9ca3af;">कल के नए set के लिए यही लिंक फिर से खोलें।</small>';
+        ' (' + percentage + '%)</span>' +
+        '<br><small style="color:#9ca3af;">Best today: '+stats.bestScore+'/'+total+' ('+stats.bestPercent+'%), Attempts today: '+stats.attempts+'</small>' +
+        streakHTML +
+        badgeHTML;
     }
   </script>
 </body>
 </html>
-
