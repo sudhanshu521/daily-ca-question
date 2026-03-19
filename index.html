@@ -16,10 +16,13 @@
     .pill span.dot {width:.35rem;height:.35rem;border-radius:999px;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,0.18);}
     h1 {font-size:1.5rem;margin:.75rem 0 .3rem;color:#e5e7eb;}
     .subtitle {font-size:.9rem;color:#9ca3af;max-width:32rem;}
+    .title-row {display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin:.75rem 0 .3rem;}
+    .title-row h1 {margin:0;}
+    .title-row .subtitle {margin:0;font-size:.95rem;color:#9ca3af;}
     .badge {font-size:.7rem;padding:.2rem .6rem;border-radius:999px;border:1px solid rgba(251,191,36,0.6);color:#facc15;background:rgba(251,191,36,0.08);}
     .news-header {display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-bottom:.35rem;}
-    .news-title {font-size:1.25rem;font-weight:600;color:#e5e7eb;}
-    .news-body {font-size:1.1rem;color:#d1d5db;line-height:1.75;}
+    .news-title {font-size:1.8rem;font-weight:600;color:#e5e7eb;}   /* ~20% bigger from 1.5 */
+    .news-body {font-size:1.56rem;color:#d1d5db;line-height:1.8;}   /* ~20% bigger from 1.3 */
     .nav-btns {display:flex;justify-content:space-between;align-items:center;gap:.75rem;margin-top:1rem;}
     .button {border-radius:999px;padding:.5rem 1.05rem;font-size:.82rem;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:.35rem;font-weight:500;letter-spacing:.02em;}
     .button-primary {background:linear-gradient(135deg,#4f46e5,#22c55e);color:white;box-shadow:0 12px 30px rgba(79,70,229,0.45);}
@@ -62,8 +65,11 @@
     <div id="news-screen" style="display:none;">
       <section class="card" id="news-panel">
         <span class="pill"><span class="dot"></span>Step 1 · Read today's news</span>
-        <h1>Daily Current Affairs Reader</h1>
-        <p class="subtitle">हर news card को आराम से पढ़ें। सभी cards complete होने के बाद नीचे से quiz start होगा।</p>
+
+        <div class="title-row">
+          <h1>Daily Current Affairs Reader</h1>
+          <p class="subtitle">हर news card को आराम से पढ़ें। सभी cards complete होने के बाद नीचे से quiz start होगा।</p>
+        </div>
 
         <div id="news-content" style="margin-top:1rem;">
           <div class="news-header">
@@ -318,3 +324,4 @@
   </script>
 </body>
 </html>
+
